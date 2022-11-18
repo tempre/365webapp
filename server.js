@@ -21,7 +21,7 @@ io.on("connection", (socket) => {
 
     socket.on("message", (message, author) => {
         let x = Object.assign({}, msg);
-        x.timestamp = Date.now();
+        x.timestamp = new Date().toISOString();
         x.message   = message;
         x.author    = author;
         console.log(x);
