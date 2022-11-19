@@ -40,5 +40,8 @@ let app = Vue.createApp({
         socket.on("update", (d) => {
             this.history.push(d);
         })
+        socket.on("init", (x) => {
+            this.history = x;
+        });
     },
 }).mount('#app');

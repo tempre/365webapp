@@ -51,6 +51,7 @@ function format_user_string(data) {
 
 io.on("connection", (socket) => {
     console.log("user connected " + socket.id);
+    socket.emit("init", HISTORY);
 
     socket.on("disconnect", () => {
         console.log(socket.id + " disconnected");
