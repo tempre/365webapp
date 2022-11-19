@@ -1,0 +1,9 @@
+.inline {
+    display: inline-block;
+}
+
+.scroll {
+    width: 600px;
+    height: 150px;
+    overflow-y: auto;
+}

@@ -5,10 +5,25 @@
 		<title>Base</title>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 		<script src="/socket.io/socket.io.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="style.css">
 		<script defer src="client.js" type="text/javascript"></script>
     </head>
     <body id="app">
-      <h1>Test</h1>
-      <input v-model="text" placeholder="edit me" @change="message_send()"/>
+        <h1>Test</h1>
+        <div class="scroll">
+            <div v-for="(data, idx) in history">
+                <div class="inline">
+                    <span> {{ data.author }} </span>
+                    <label>&nbsp;
+                        <span> {{ new Date(data.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} </span>
+                    </label>
+                </div>
+                <hr width="25%" align="left">
+                <div>
+                    <p> {{ data.message }} </p>
+                </div>
+            </div>
+        </div>
+        <input v-model="text" placeholder="edit me" @change="message_send()"/>
     </body>
 </html>

@@ -10,22 +10,56 @@ const PORT = 8082;
 
 app.use(express.static("pub"));
 
-const msg = {timestamp: 0, message: "", author: ""};
-let history = [];
+/** DEFNS */
+const MESSAGE    = 0;
+const USER       = 1;
+const EVENT_SIZE = 2;
+
+const STR_DEFAULT_SERVER = "global.";
+const STR_USER_JOIN      = " has joined ";
+const STR_USER_LEAVE     = " has left ";
+
+const INT_USER_LEFT = 0;
+const INT_USER_JOIN = 1;
+
+const MESSAGE_STRUCT = {timestamp: 0, message: "", author: ""};
+
+/** GLOBALS */
+var HISTORY = [];
+
+/** EVENT HANDLES */
+function message_handler(action, data) {
+    let x = Object.assign({}, MESSAGE_STRUCT);
+    x.timestamp = Date.now();
+    x.message   = data.message;
+    x.author    = data.author;
+    HISTORY.push(x);
+    io.emit("update", x);
+}
+
+/** HELPERS */
+function format_user_string(data) {
+    if(data.action == INT_USER_LEFT)
+    {
+        return (data.author + STR_USER_LEAVE + STR_DEFAULT_SERVER)
+    }
+    else
+    {
+        return (data.author + STR_USER_JOIN + STR_DEFAULT_SERVER)
+    }
+}
+
 io.on("connection", (socket) => {
     console.log("user connected " + socket.id);
 
     socket.on("disconnect", () => {
-        console.log(socket + " disconnected");
+        console.log(socket.id + " disconnected");
     });
 
-    socket.on("message", (message, author) => {
-        let x = Object.assign({}, msg);
-        x.timestamp = new Date().toISOString();
-        x.message   = message;
-        x.author    = author;
-        console.log(x);
-    });
+
+    socket.on("event", (event, data) => {
+        message_handler(event, data);
+    })
 });
 
 server.listen(PORT, function() {
