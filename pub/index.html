@@ -6,24 +6,27 @@
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 		<script src="/socket.io/socket.io.js" type="text/javascript"></script>
         <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 		<script defer src="client.js" type="text/javascript"></script>
     </head>
     <body id="app">
-        <h1>Test</h1>
-        <div class="scroll">
+        <h1>Mycelium Chat</h1>
+        <div id="user-list-box">
+            <p>{{id}}</p>
+        </div>
+        <div id="chat-box">
             <div v-for="(data, idx) in history">
-                <div class="inline">
-                    <span> {{ data.author }} </span>
-                    <label>&nbsp;
-                        <span> {{ new Date(data.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} </span>
-                    </label>
+                <div class="message-meta">
+                    <p class="author">{{ data.author }}</p>
+                    <p>{{ new Date(data.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} </p>
                 </div>
-                <hr width="25%" align="left">
-                <div>
+                <div class="message-body">
                     <p> {{ data.message }} </p>
                 </div>
             </div>
+            <input id="message-input" v-model="text" placeholder="edit me" @change="message_send()"/>
         </div>
-        <input v-model="text" placeholder="edit me" @change="message_send()"/>
     </body>
 </html>

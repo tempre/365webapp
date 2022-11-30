@@ -11,6 +11,7 @@ let app = Vue.createApp({
             text: "",
             author: "aks",
             history: [],
+            id: socket.id
         };
     },
     created() {

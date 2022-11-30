@@ -1,9 +1,21 @@
-.inline {
-    display: inline-block;
+html {
+    font-family: nunito;
 }
 
-.scroll {
-    width: 600px;
-    height: 150px;
-    overflow-y: auto;
+#chat-box {
+    width: 900px;
+
+    background-color: red;
+}
+
+.message-meta {
+    width: 180px;
+    display: flex;
+    justify-content: space-between;
+
+    font-weight: bold;
+}
+
+#message-input {
+    width: 100%;
 }
