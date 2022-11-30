@@ -1,8 +1,9 @@
 var socket = io();
 
 const MESSAGE    = 0;
-const USER       = 1;
-const EVENT_SIZE = 2;
+const USER_JOIN  = 1;
+const USER_LEAVE = 2;
+const EVENT_SIZE = 3;
 
 let app = Vue.createApp({
     data() {
@@ -44,5 +45,7 @@ let app = Vue.createApp({
         socket.on("init", (x) => {
             this.history = x;
         });
+
+        socket.emit("event", USER_JOIN, {"message": "", "author": this.author});
     },
 }).mount('#app');
