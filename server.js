@@ -28,6 +28,19 @@ var HISTORY = [];
 var USER_HISTORY = new Map();
 
 /** EVENT HANDLES */
+function user_handle(action, data, socket, obj)
+{
+    let ret = false;
+    if(!USER_HISTORY.has(data.author))
+    {
+        obj.message = format_user_string(action, data);
+        ret = true;
+    }
+    USER_HISTORY.set(data.author, socket.id);
+    console.log(USER_HISTORY);
+    return ret;
+}
+
 function message_handler(action, data, socket) {
     let x = Object.assign({}, MESSAGE_STRUCT);
     x.timestamp = Date.now();
@@ -36,9 +49,10 @@ function message_handler(action, data, socket) {
     switch(action)
     {
         case USER_JOIN || USER_LEAVE:
-            x.message = format_user_string(action, data);
-            USER_HISTORY.set(x.author, socket.id);
-            console.log(USER_HISTORY);
+            if(!user_handle(action, data, socket, x))
+            {
+                return;
+            }
             break;
 
         case MESSAGE:
